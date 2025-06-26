@@ -2,7 +2,15 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'com.google.gms.google-services'
+}
+
+// At build time Firebase requires `google-services.json`. To allow compilation
+// without the file we apply the plugin conditionally. Features that rely on
+// Firebase will only work when the configuration file is present.
+if (rootProject.file("app/google-services.json").exists()) {
+    apply plugin: 'com.google.gms.google-services'
+} else {
+    logger.warn("google-services.json not found. Firebase services will be disabled.")
 }
 
 android {

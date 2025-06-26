@@ -16,6 +16,8 @@ Este repositório contém o código do aplicativo **Letra Viva**, um aplicativo 
 2. Clone este repositório e abra o projeto pelo Android Studio.
 3. Aguarde a sincronização do Gradle e conecte um dispositivo ou inicie um emulador.
 4. Utilize a opção **Run** do Android Studio para compilar e instalar o aplicativo.
+5. Caso os scripts `gradlew` não estejam presentes, execute `gradle wrapper` para gerá-los.
+6. Crie um projeto no Firebase e coloque o arquivo `google-services.json` em `app/`. Atualize também o valor de `default_web_client_id` em `app/src/main/res/values/strings.xml`.
 
 Para compilar via linha de comando você também pode executar:
 
