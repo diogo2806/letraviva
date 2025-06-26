@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="br.com.valenstech.letraviva.ui.home.HomeFragment"
+        android:label="@string/menu_home" />
+    <fragment
+        android:id="@+id/nav_devocional"
+        android:name="br.com.valenstech.letraviva.ui.devocional.DevocionalFragment"
+        android:label="@string/menu_devocional" />
+    <fragment
+        android:id="@+id/nav_planos"
+        android:name="br.com.valenstech.letraviva.ui.planos.PlanosFragment"
+        android:label="@string/menu_planos" />
+    <fragment
+        android:id="@+id/nav_audios"
+        android:name="br.com.valenstech.letraviva.ui.audios.AudiosFragment"
+        android:label="@string/menu_audios" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="br.com.valenstech.letraviva.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings" />
+</navigation>

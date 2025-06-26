@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Letra Viva</string>
+    <string name="login_google">Entrar com Google</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_devocional">Devocional do Dia</string>
+    <string name="menu_planos">Planos de Leitura</string>
+    <string name="menu_audios">Áudios Narrados</string>
+    <string name="menu_settings">Configurações</string>
+    <string name="menu_logout">Sair</string>
+    <string name="welcome">Bem-vindo(a), %1$s</string>
+    <string name="highlight">Destaques do dia</string>
+    <string name="devotional_text">Texto devocional de exemplo...</string>
+    <string name="listen">Ouvir</string>
+    <string name="progress">Progresso</string>
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID</string>
+</resources>
