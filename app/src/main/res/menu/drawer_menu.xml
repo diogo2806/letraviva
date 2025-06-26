@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_devocional"
+            android:title="@string/menu_devocional" />
+        <item
+            android:id="@+id/nav_planos"
+            android:title="@string/menu_planos" />
+        <item
+            android:id="@+id/nav_audios"
+            android:title="@string/menu_audios" />
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/menu_settings" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="@string/menu_logout" />
+    </group>
+</menu>
