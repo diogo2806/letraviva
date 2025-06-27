@@ -5,10 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import br.com.valenstech.letraviva.R
 import br.com.valenstech.letraviva.model.ReadingPlan
 
-class PlansAdapter(private val plans: List<ReadingPlan>) : RecyclerView.Adapter<PlansAdapter.PlanViewHolder>() {
+class PlansAdapter(private var plans: List<ReadingPlan>) : RecyclerView.Adapter<PlansAdapter.PlanViewHolder>() {
+
+    fun updatePlans(newPlans: List<ReadingPlan>) {
+        plans = newPlans
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
