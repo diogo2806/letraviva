@@ -36,6 +36,22 @@ O módulo principal fica em `app/` e segue a organização padrão de um aplicat
 - `model/` – modelos de dados utilizados no app
 - `util/` – constantes e utilidades diversas
 
+## Integração com banco gratuito na nuvem
+
+Este projeto utiliza o **Firebase Firestore** como exemplo de banco de dados na
+nuvem. O serviço possui um plano gratuito que permite testes iniciais sem custos.
+
+1. Acesse o [console do Firebase](https://console.firebase.google.com/) e crie
+   um projeto.
+2. Habilite o Firestore no modo *test* para facilitar os primeiros passos.
+3. Crie uma coleção chamada `plans` contendo documentos com o campo `title`.
+4. Copie o arquivo `google-services.json` gerado para o diretório `app/` do
+   projeto.
+
+O fragmento `PlanosFragment` carrega os planos diretamente do Firestore por meio
+da classe `PlanosViewModel`. Ajuste a coleção conforme a necessidade do seu
+aplicativo.
+
 ## Licença
 
 Este projeto é distribuído sem uma licença específica. Utilize o código de acordo com as boas práticas de software livre.
