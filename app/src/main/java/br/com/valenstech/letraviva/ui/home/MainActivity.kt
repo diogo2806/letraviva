@@ -7,6 +7,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import br.com.valenstech.letraviva.R
@@ -41,10 +42,11 @@ class MainActivity : AppCompatActivity() {
                 finish()
                 true
             } else {
-                val handled = navController.navigateUp()
-                menuItem.isChecked = true
+                val handled = NavigationUI.onNavDestinationSelected(menuItem, navController)
+                if (handled) {
+                    menuItem.isChecked = true
+                }
                 drawerLayout.closeDrawer(GravityCompat.START)
-                navController.navigate(menuItem.itemId)
                 handled
             }
         }
