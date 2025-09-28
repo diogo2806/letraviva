@@ -1,5 +1,6 @@
 package br.com.valenstech.letraviva.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -13,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import br.com.valenstech.letraviva.R
 import br.com.valenstech.letraviva.databinding.ActivityMainBinding
 import br.com.valenstech.letraviva.viewmodel.AuthViewModel
+import br.com.valenstech.letraviva.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,6 +41,11 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             if (menuItem.itemId == R.id.nav_logout) {
                 authViewModel.signOut()
+                val intent = Intent(this, LoginActivity::class.java).apply {
+                    flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
+                startActivity(intent)
                 finish()
                 true
             } else {
