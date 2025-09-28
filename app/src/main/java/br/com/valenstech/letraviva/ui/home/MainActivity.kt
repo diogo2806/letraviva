@@ -44,9 +44,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val handled = NavigationUI.onNavDestinationSelected(menuItem, navController)
                 if (handled) {
-                    menuItem.isChecked = true
+                    drawerLayout.closeDrawer(GravityCompat.START)
                 }
-                drawerLayout.closeDrawer(GravityCompat.START)
                 handled
             }
         }
