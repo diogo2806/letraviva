@@ -5,15 +5,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/progressDevotional"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
+
     <TextView
-        android:id="@+id/tvDevotional"
+        android:id="@+id/tvDevotionalMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/devotional_text" />
+        android:layout_marginTop="12dp"
+        android:textAlignment="center"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/contentDevotional"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvDevotionalTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <TextView
+                android:id="@+id/tvDevotional"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp" />
+        </ScrollView>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/listen" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:text="@string/listen"
+        android:visibility="gone" />
 </LinearLayout>
