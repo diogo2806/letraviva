@@ -9,8 +9,21 @@
     <string name="menu_logout">Sair</string>
     <string name="welcome">Bem-vindo(a), %1$s</string>
     <string name="highlight">Destaques do dia</string>
-    <string name="devotional_text">Texto devocional de exemplo...</string>
     <string name="listen">Ouvir</string>
     <string name="progress">Progresso</string>
     <string name="default_web_client_id">YOUR_WEB_CLIENT_ID</string>
+    <string name="loading_plans">Carregando planos...</string>
+    <string name="empty_plans_message">Nenhum plano disponível no momento.</string>
+    <string name="error_loading_plans">Não foi possível carregar os planos.</string>
+    <string name="loading_audios">Carregando áudios...</string>
+    <string name="empty_audios_message">Nenhum áudio disponível.</string>
+    <string name="error_loading_audios">Não foi possível carregar os áudios.</string>
+    <string name="preparing_audio">Preparando "%1$s"...</string>
+    <string name="now_playing">Reproduzindo "%1$s"</string>
+    <string name="audio_finished">Reprodução de "%1$s" concluída</string>
+    <string name="error_play_audio">Não foi possível reproduzir o áudio.</string>
+    <string name="loading_devotional">Carregando devocional...</string>
+    <string name="empty_devotional_message">Nenhum devocional disponível para hoje.</string>
+    <string name="error_loading_devotional">Não foi possível carregar o devocional.</string>
+    <string name="devotional_default_title">Devocional</string>
 </resources>

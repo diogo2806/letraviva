@@ -4,27 +4,38 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import br.com.valenstech.letraviva.R
 import br.com.valenstech.letraviva.model.ReadingPlan
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import br.com.valenstech.letraviva.repository.PlanRepository
+import br.com.valenstech.letraviva.util.UiState
 
 class PlanosViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _plans = MutableLiveData<List<ReadingPlan>>()
-    val plans: LiveData<List<ReadingPlan>> = _plans
-
-    private val db = Firebase.firestore
+    private val repository = PlanRepository()
+    private val _state = MutableLiveData<UiState<List<ReadingPlan>>>()
+    val state: LiveData<UiState<List<ReadingPlan>>> = _state
 
     fun loadPlans() {
-        db.collection("plans").get()
-            .addOnSuccessListener { result ->
-                val list = result.documents.mapNotNull { doc ->
-                    doc.getString("title")?.let { ReadingPlan(it) }
+        _state.value = UiState.Loading
+        repository.fetchPlans { result ->
+            result.onSuccess { plans ->
+                if (plans.isEmpty()) {
+                    _state.postValue(
+                        UiState.Empty(
+                            getApplication<Application>().getString(R.string.empty_plans_message)
+                        )
+                    )
+                } else {
+                    _state.postValue(UiState.Success(plans))
                 }
-                _plans.value = list
+            }.onFailure { exception ->
+                _state.postValue(
+                    UiState.Error(
+                        exception.message
+                            ?: getApplication<Application>().getString(R.string.error_loading_plans)
+                    )
+                )
             }
-            .addOnFailureListener {
-                _plans.value = emptyList()
-            }
+        }
     }
 }
