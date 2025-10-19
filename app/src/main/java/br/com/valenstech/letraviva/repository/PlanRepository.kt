@@ -1,6 +1,7 @@
 package br.com.valenstech.letraviva.repository
 
 import br.com.valenstech.letraviva.model.ReadingPlan
+import br.com.valenstech.letraviva.util.ValidacaoConteudo
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
@@ -13,10 +14,17 @@ class PlanRepository(
         firestore.collection("plans")
             .get()
             .addOnSuccessListener { result ->
-                val plans = result.documents.mapNotNull { doc ->
-                    doc.getString("title")?.takeIf { it.isNotBlank() }?.let { ReadingPlan(it) }
+                val planosSeguros = mutableListOf<ReadingPlan>()
+                result.documents.forEach { doc ->
+                    val tituloOriginal = doc.getString("title")
+                    if (!ValidacaoConteudo.validarTextoSeguroObrigatorio(tituloOriginal)) {
+                        onComplete(Result.failure(IllegalStateException("Plano de leitura contém conteúdo inseguro.")))
+                        return@addOnSuccessListener
+                    }
+                    val tituloSanitizado = ValidacaoConteudo.sanitizarBasico(tituloOriginal!!)
+                    planosSeguros.add(ReadingPlan(tituloSanitizado))
                 }
-                onComplete(Result.success(plans))
+                onComplete(Result.success(planosSeguros))
             }
             .addOnFailureListener { exception ->
                 onComplete(Result.failure(exception))

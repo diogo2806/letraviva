@@ -13,6 +13,8 @@ import br.com.valenstech.letraviva.R
 import br.com.valenstech.letraviva.databinding.FragmentDevocionalBinding
 import br.com.valenstech.letraviva.model.DevotionalContent
 import br.com.valenstech.letraviva.util.UiState
+import br.com.valenstech.letraviva.util.ValidacaoConteudo
+import br.com.valenstech.letraviva.util.definirTextoSeguro
 import br.com.valenstech.letraviva.viewmodel.DevocionalViewModel
 import java.io.IOException
 
@@ -58,7 +60,7 @@ class DevocionalFragment : Fragment() {
     private fun showLoadingState() {
         binding.progressDevotional.isVisible = true
         binding.tvDevotionalMessage.apply {
-            text = getString(R.string.loading_devotional)
+            definirTextoSeguro(getString(R.string.loading_devotional))
             isVisible = true
         }
         binding.contentDevotional.isVisible = false
@@ -71,9 +73,9 @@ class DevocionalFragment : Fragment() {
         binding.progressDevotional.isVisible = false
         binding.tvDevotionalMessage.isVisible = false
         binding.contentDevotional.isVisible = true
-        binding.tvDevotionalTitle.text = content.title
+        binding.tvDevotionalTitle.definirTextoSeguro(content.title)
         binding.tvDevotionalTitle.isVisible = content.title.isNotBlank()
-        binding.tvDevotional.text = content.text
+        binding.tvDevotional.definirTextoSeguro(content.text)
         val hasAudio = !content.audioUrl.isNullOrBlank()
         binding.btnPlay.isVisible = hasAudio
         binding.btnPlay.isEnabled = hasAudio
@@ -86,7 +88,7 @@ class DevocionalFragment : Fragment() {
         binding.btnPlay.isVisible = false
         binding.btnPlay.isEnabled = false
         binding.tvDevotionalMessage.apply {
-            text = message
+            definirTextoSeguro(message)
             isVisible = true
         }
     }
@@ -95,7 +97,10 @@ class DevocionalFragment : Fragment() {
         val audioUrl = content.audioUrl ?: return
         binding.btnPlay.isEnabled = false
         binding.tvDevotionalMessage.apply {
-            text = getString(R.string.preparing_audio, content.title.ifBlank { getString(R.string.devotional_default_title) })
+            val tituloSeguro = ValidacaoConteudo.aplicarEscapeSeguro(
+                content.title.ifBlank { getString(R.string.devotional_default_title) },
+            )
+            definirTextoSeguro(getString(R.string.preparing_audio, tituloSeguro))
             isVisible = true
         }
         releasePlayer()
@@ -110,16 +115,26 @@ class DevocionalFragment : Fragment() {
         try {
             player.setDataSource(audioUrl)
             player.setOnPreparedListener {
-                binding.tvDevotionalMessage.text = getString(R.string.now_playing, content.title.ifBlank { getString(R.string.devotional_default_title) })
+                val tituloSeguro = ValidacaoConteudo.aplicarEscapeSeguro(
+                    content.title.ifBlank { getString(R.string.devotional_default_title) },
+                )
+                binding.tvDevotionalMessage.definirTextoSeguro(
+                    getString(R.string.now_playing, tituloSeguro),
+                )
                 binding.btnPlay.isEnabled = true
                 it.start()
             }
             player.setOnCompletionListener {
-                binding.tvDevotionalMessage.text = getString(R.string.audio_finished, content.title.ifBlank { getString(R.string.devotional_default_title) })
+                val tituloSeguro = ValidacaoConteudo.aplicarEscapeSeguro(
+                    content.title.ifBlank { getString(R.string.devotional_default_title) },
+                )
+                binding.tvDevotionalMessage.definirTextoSeguro(
+                    getString(R.string.audio_finished, tituloSeguro),
+                )
                 binding.btnPlay.isEnabled = true
             }
             player.setOnErrorListener { mp, _, _ ->
-                binding.tvDevotionalMessage.text = getString(R.string.error_play_audio)
+                binding.tvDevotionalMessage.definirTextoSeguro(getString(R.string.error_play_audio))
                 binding.btnPlay.isEnabled = true
                 mp.reset()
                 mp.release()
@@ -128,7 +143,7 @@ class DevocionalFragment : Fragment() {
             }
             player.prepareAsync()
         } catch (exception: IOException) {
-            binding.tvDevotionalMessage.text = getString(R.string.error_play_audio)
+            binding.tvDevotionalMessage.definirTextoSeguro(getString(R.string.error_play_audio))
             binding.btnPlay.isEnabled = true
             player.reset()
             player.release()

@@ -13,6 +13,7 @@ import br.com.valenstech.letraviva.databinding.FragmentPlanosBinding
 import br.com.valenstech.letraviva.model.ReadingPlan
 import br.com.valenstech.letraviva.util.UiState
 import br.com.valenstech.letraviva.viewmodel.PlanosViewModel
+import br.com.valenstech.letraviva.util.definirTextoSeguro
 
 class PlanosFragment : Fragment() {
 
@@ -52,7 +53,7 @@ class PlanosFragment : Fragment() {
         binding.progressPlans.isVisible = true
         binding.recyclerPlans.isVisible = false
         binding.tvPlansMessage.apply {
-            text = getString(R.string.loading_plans)
+            definirTextoSeguro(getString(R.string.loading_plans))
             isVisible = true
         }
     }
@@ -68,7 +69,7 @@ class PlanosFragment : Fragment() {
         binding.progressPlans.isVisible = false
         binding.recyclerPlans.isVisible = false
         binding.tvPlansMessage.isVisible = true
-        binding.tvPlansMessage.text = message
+        binding.tvPlansMessage.definirTextoSeguro(message)
     }
 
     override fun onDestroyView() {

@@ -16,6 +16,8 @@ import br.com.valenstech.letraviva.R
 import br.com.valenstech.letraviva.databinding.FragmentAudiosBinding
 import br.com.valenstech.letraviva.model.AudioItem
 import br.com.valenstech.letraviva.util.UiState
+import br.com.valenstech.letraviva.util.ValidacaoConteudo
+import br.com.valenstech.letraviva.util.definirTextoSeguro
 import br.com.valenstech.letraviva.viewmodel.AudiosViewModel
 import java.io.IOException
 
@@ -58,7 +60,7 @@ class AudiosFragment : Fragment() {
         binding.progressAudios.isVisible = true
         binding.recyclerAudios.isVisible = false
         binding.tvAudiosMessage.apply {
-            text = getString(R.string.loading_audios)
+            definirTextoSeguro(getString(R.string.loading_audios))
             isVisible = true
         }
         binding.tvNowPlaying.isVisible = false
@@ -76,7 +78,7 @@ class AudiosFragment : Fragment() {
         binding.progressAudios.isVisible = false
         binding.recyclerAudios.isVisible = false
         binding.tvAudiosMessage.apply {
-            text = message
+            definirTextoSeguro(message)
             isVisible = true
         }
         binding.tvNowPlaying.isVisible = false
@@ -85,7 +87,8 @@ class AudiosFragment : Fragment() {
     private fun playAudio(item: AudioItem) {
         binding.tvNowPlaying.apply {
             isVisible = true
-            text = getString(R.string.preparing_audio, item.title)
+            val tituloSeguro = ValidacaoConteudo.aplicarEscapeSeguro(item.title)
+            definirTextoSeguro(getString(R.string.preparing_audio, tituloSeguro))
         }
         releasePlayer()
         val player = MediaPlayer()
@@ -99,14 +102,16 @@ class AudiosFragment : Fragment() {
         try {
             player.setDataSource(item.streamUrl)
             player.setOnPreparedListener {
-                binding.tvNowPlaying.text = getString(R.string.now_playing, item.title)
+                val tituloSeguro = ValidacaoConteudo.aplicarEscapeSeguro(item.title)
+                binding.tvNowPlaying.definirTextoSeguro(getString(R.string.now_playing, tituloSeguro))
                 it.start()
             }
             player.setOnCompletionListener {
-                binding.tvNowPlaying.text = getString(R.string.audio_finished, item.title)
+                val tituloSeguro = ValidacaoConteudo.aplicarEscapeSeguro(item.title)
+                binding.tvNowPlaying.definirTextoSeguro(getString(R.string.audio_finished, tituloSeguro))
             }
             player.setOnErrorListener { mp, _, _ ->
-                binding.tvNowPlaying.text = getString(R.string.error_play_audio)
+                binding.tvNowPlaying.definirTextoSeguro(getString(R.string.error_play_audio))
                 mp.reset()
                 mp.release()
                 mediaPlayer = null
@@ -114,7 +119,7 @@ class AudiosFragment : Fragment() {
             }
             player.prepareAsync()
         } catch (exception: IOException) {
-            binding.tvNowPlaying.text = getString(R.string.error_play_audio)
+            binding.tvNowPlaying.definirTextoSeguro(getString(R.string.error_play_audio))
             player.reset()
             player.release()
             mediaPlayer = null
@@ -168,7 +173,7 @@ class AudiosAdapter(
         private val text: TextView = view.findViewById(android.R.id.text1)
 
         fun bind(item: AudioItem) {
-            text.text = item.title
+            text.definirTextoSeguro(item.title)
             itemView.setOnClickListener { onItemClick(item) }
         }
     }

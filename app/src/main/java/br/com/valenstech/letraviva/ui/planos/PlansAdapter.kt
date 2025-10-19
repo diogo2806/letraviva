@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.valenstech.letraviva.model.ReadingPlan
+import br.com.valenstech.letraviva.util.definirTextoSeguro
 
 class PlansAdapter(private var plans: List<ReadingPlan>) : RecyclerView.Adapter<PlansAdapter.PlanViewHolder>() {
 
@@ -28,7 +29,7 @@ class PlansAdapter(private var plans: List<ReadingPlan>) : RecyclerView.Adapter<
     inner class PlanViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val text: TextView = view.findViewById(android.R.id.text1)
         fun bind(plan: ReadingPlan) {
-            text.text = plan.title
+            text.definirTextoSeguro(plan.title)
         }
     }
 }
