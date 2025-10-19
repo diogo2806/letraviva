@@ -1,6 +1,7 @@
 package br.com.valenstech.letraviva.repository
 
 import br.com.valenstech.letraviva.model.DevotionalContent
+import br.com.valenstech.letraviva.util.ValidacaoConteudo
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -18,18 +19,42 @@ class DevotionalRepository(
             .addOnSuccessListener { snapshot ->
                 val document = snapshot.documents.firstOrNull()
                 if (document != null) {
-                    val text = document.getString("text")
-                    if (text.isNullOrBlank()) {
+                    val textoOriginal = document.getString("text")
+                    if (textoOriginal.isNullOrBlank()) {
                         onComplete(Result.success(null))
                         return@addOnSuccessListener
                     }
-                    val content = DevotionalContent(
+                    if (!ValidacaoConteudo.validarTextoSeguroObrigatorio(textoOriginal)) {
+                        onComplete(Result.failure(IllegalStateException("Conteúdo inseguro detectado no devocional.")))
+                        return@addOnSuccessListener
+                    }
+
+                    val tituloOriginal = document.getString("title")
+                    if (!ValidacaoConteudo.validarTextoSeguroOpcional(tituloOriginal)) {
+                        onComplete(Result.failure(IllegalStateException("Título do devocional contém conteúdo inseguro.")))
+                        return@addOnSuccessListener
+                    }
+
+                    val audioUrlOriginal = document.getString("audioUrl")
+                    val audioUrlSanitizada = if (audioUrlOriginal.isNullOrBlank()) {
+                        null
+                    } else {
+                        val urlPreparada = ValidacaoConteudo.sanitizarBasico(audioUrlOriginal)
+                        if (ValidacaoConteudo.validarUrlSegura(urlPreparada)) {
+                            urlPreparada
+                        } else {
+                            onComplete(Result.failure(IllegalStateException("Endereço de áudio inválido ou inseguro.")))
+                            return@addOnSuccessListener
+                        }
+                    }
+
+                    val conteudo = DevotionalContent(
                         id = document.id,
-                        title = document.getString("title") ?: "",
-                        text = text,
-                        audioUrl = document.getString("audioUrl")
+                        title = ValidacaoConteudo.sanitizarBasico(tituloOriginal.orEmpty()),
+                        text = ValidacaoConteudo.sanitizarBasico(textoOriginal!!),
+                        audioUrl = audioUrlSanitizada,
                     )
-                    onComplete(Result.success(content))
+                    onComplete(Result.success(conteudo))
                 } else {
                     onComplete(Result.success(null))
                 }
