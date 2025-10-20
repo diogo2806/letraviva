@@ -1,7 +1,0 @@
-package br.com.valenstech.letraviva.model
-
-data class AudioItem(
-    val id: String,
-    val title: String,
-    val streamUrl: String
-)
