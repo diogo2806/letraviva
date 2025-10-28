@@ -8,6 +8,9 @@
     <string name="menu_logout">Sair</string>
     <string name="welcome">Bem-vindo(a), %1$s</string>
     <string name="highlight">Destaques do dia</string>
+    <string name="loading_highlight">Carregando destaques...</string>
+    <string name="empty_highlight_message">Nenhum destaque disponível no momento.</string>
+    <string name="error_loading_highlight">Não foi possível carregar os destaques.</string>
     <string name="listen">Ouvir</string>
     <string name="progress">Progresso</string>
     <string name="default_web_client_id">YOUR_WEB_CLIENT_ID</string>
