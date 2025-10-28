@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_home,
                 R.id.nav_devocional,
                 R.id.nav_planos,
-                R.id.nav_audios,
-                R.id.nav_settings
+                R.id.nav_audios
         ).setOpenableLayout(gaveta).build();
         NavigationUI.setupActionBarWithNavController(this, controladorNavegacao, configuracaoAppBar);
         binding.navView.setupWithNavController(controladorNavegacao);
